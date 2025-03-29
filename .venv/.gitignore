@@ -1,0 +1,10 @@
+# created by virtualenv automatically
+# Python-specific
+__pycache__/
+*.pyc
+*.pyd
+*.egg
+.venv/  # Or venv/, virtualenv/, etc. - adjust to your virtual environment name
+.env     # For environment variables - NEVER commit this!
+*.swp    # Swap files (Vim)
+*~       # Backup files (editor-specific)
