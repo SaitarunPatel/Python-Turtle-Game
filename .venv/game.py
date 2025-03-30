@@ -3,17 +3,28 @@ from turtle import Turtle
 import constants
 
 class GameController:
-    current_level = None
+    current_level = 0
+    high_score = 0
     cars_list = []
     player = None
     scoreGraphic = None
     
     def __init__(self):
-        self.current_level = 1
+        self.current_level = 0
         self.makeTurtle()
         self.addCars()
         self.setUpScoreGraphic()
         self.writeScoreOnView()
+        self.loadHighScore('read', None)
+
+    def loadHighScore(self, fileMode, data):
+        if fileMode == 'read':
+            with open('high_score.txt', mode='r') as file:
+                self.high_score = int(file.read())
+        else:
+            self.high_score = data
+            with open('high_score.txt', mode='w') as file:
+                file.write(str(data))
 
     def setUpScoreGraphic(self):
         self.scoreGraphic = Turtle()
@@ -22,8 +33,10 @@ class GameController:
         self.scoreGraphic.goto(constants.LEVEL_TEXT_POSITION[0], constants.LEVEL_TEXT_POSITION[1])
 
     def writeScoreOnView(self):
+        if self.current_level > self.high_score:
+            self.loadHighScore('write', self.current_level)
         self.scoreGraphic.clear()
-        self.scoreGraphic.write(f"LEVEL: {self.current_level}", align="center", font=("Arial", 25, "normal"))
+        self.scoreGraphic.write(f"SCORE: {self.current_level} HIGH SCORE: {self.high_score}", align="center", font=("Arial", 25, "normal"))
 
     def makeTurtle(self):
         self.player = Turtle(constants.PLAYER_TYPE)
